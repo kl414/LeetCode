@@ -1,0 +1,21 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+ /**
+If simply deleting the node, then I cannot link the prev to next
+So I'm thinking to change the current node's value to next, link current to next->next, delete next
+And since it won't be the tail, there is no need for checking if next is null
+This is a easy problem, but it indeed requires to think differently
+*/
+public class Solution {
+    public void deleteNode(ListNode node) {
+        ListNode next = node.next;
+        node.val = next.val;
+        node.next = next.next;
+    }
+}
