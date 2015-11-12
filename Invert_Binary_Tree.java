@@ -12,7 +12,6 @@ public class Solution {
         /**
          * DNF solution
          */
-         /*
          if(root == null) return null;
          
          TreeNode left = root.left;
@@ -22,7 +21,6 @@ public class Solution {
          root.right = invertTree(left);
          
          return root;
-         */
          
          /**
           * By using queue this can be converted to BFS
