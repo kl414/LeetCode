@@ -1,20 +1,25 @@
-public int trap(int[] A){
-    int a=0;
-    int b=A.length-1;
-    int max=0;
-    int leftmax=0;
-    int rightmax=0;
-    while(a<=b){
-        leftmax=Math.max(leftmax,A[a]);
-        rightmax=Math.max(rightmax,A[b]);
-        if(leftmax<rightmax){
-            max+=(leftmax-A[a]);       // leftmax is smaller than rightmax, so the (leftmax-A[a]) water can be stored
-            a++;
+/**
+ * The water traped is dependent on the lower bar
+ * So if A[i] < lower bar, then at least (lowerbar-A[i]) water is trapped
+ */
+public class Solution {
+    public int trap(int[] A) {
+        int left = 0;
+        int right = A.length - 1;
+        int water = 0;
+        int lowerBar = 0;
+        while(left <= right){
+            if(Math.min(A[left], A[right]) > lowerBar){
+                lowerBar = Math.min(A[left], A[right]);
+            }
+            
+            if(A[left] >= A[right]){
+                water += lowerBar - A[right--];
+            }else{
+                water += lowerBar - A[left++];
+            }
         }
-        else{
-            max+=(rightmax-A[b]);
-            b--;
-        }
+        
+        return water;
     }
-    return max;
 }
