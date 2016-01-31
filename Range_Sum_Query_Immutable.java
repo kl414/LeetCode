@@ -1,3 +1,9 @@
+/**
+ * pre-process the array such that 
+ * each element holds the sum of its previous element
+ * therefore can save time on many calls to the function
+ * if don't want to change the input array, can duplicate one
+ */
 public class NumArray {
     int[] nums;
     
