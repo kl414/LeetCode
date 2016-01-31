@@ -1,39 +1,26 @@
-public int lengthOfLIS(int[] nums) 
-    {
-        // Base case
-        if(nums.length <= 1) 
-            return nums.length;
-
-        // This will be our array to track longest sequence length
-        int T[] = new int[nums.length];
-
-        // Fill each position with value 1 in the array
-        for(int i=0; i < nums.length; i++)
-            T[i] = 1;
-
-
-        // Mark one pointer at i. For each i, start from j=0.
-        for(int i=1; i < nums.length; i++)
-        {
-            for(int j=0; j < i; j++)
-            {
-                // It means next number contributes to increasing sequence.
-                if(nums[j] < nums[i])
-                {
-                    // But increase the value only if it results in a larger value of the sequence than T[i]
-                    // It is possible that T[i] already has larger value from some previous j'th iteration
-                    if(T[j] + 1 > T[i])
-                    {
-                        T[i] = T[j] + 1;
-                    }
-                }
+/**
+ * use the array to store the minimal end value of the increasing sequence
+ * Also, the binarySearch returns (-(insertion point) - 1) if key is not found
+ */
+public class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int[] dp = new int[nums.length];
+        int len = 0;
+        
+        for(int x : nums) {
+            /* faster this way since it doesn't do the search all the time
+            if (N < 1 || x > nums[N-1]) {
+                nums[N++] = x;
+            } else if ((idx = Arrays.binarySearch(nums, 0, N, x)) < 0) {
+                nums[-(idx + 1)] = x;
             }
+            */
+            int i = Arrays.binarySearch(dp, 0, len, x);
+            if(i < 0) i = -(i + 1);
+            dp[i] = x;
+            if(i == len) len++;
         }
-
-        // Find the maximum length from the array that we just generated 
-        int longest = 0;
-        for(int i=0; i < T.length; i++)
-            longest = Math.max(longest, T[i]);
-
-        return longest;
+        
+        return len;
     }
+}
