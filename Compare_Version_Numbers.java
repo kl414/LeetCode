@@ -1,16 +1,19 @@
-public int compareVersion(String version1, String version2) {
-    String[] levels1 = version1.split("\\.");
-    String[] levels2 = version2.split("\\.");
-
-    int length = Math.max(levels1.length, levels2.length);
-    for (int i=0; i<length; i++) {
-        Integer v1 = i < levels1.length ? Integer.parseInt(levels1[i]) : 0;
-        Integer v2 = i < levels2.length ? Integer.parseInt(levels2[i]) : 0;
-        int compare = v1.compareTo(v2);
-        if (compare != 0) {
-            return compare;
+//Seems pretty easy? 
+//Just split by . character and compare the first part, if same then compare the latters
+//it can be done without split but tedious
+public class Solution {
+    public int compareVersion(String version1, String version2) {
+        String[] s1 = version1.split("\\.");
+        String[] s2 = version2.split("\\.");
+        
+        int length = Math.max(s1.length, s2.length);
+        for(int i = 0; i < length; i++){
+            int v1 = i < s1.length? Integer.parseInt(s1[i]):0;
+            int v2 = i < s2.length? Integer.parseInt(s2[i]):0;
+            
+            if(v1 > v2) return 1;
+            if(v2 > v1) return -1;
         }
+        return 0;
     }
-
-    return 0;
 }
