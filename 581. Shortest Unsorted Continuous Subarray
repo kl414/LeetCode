@@ -1,0 +1,24 @@
+public class Solution {
+    public int findUnsortedSubarray(int[] nums) {
+        /*
+            find first instance where i > i + 1 from begining and ending (O(n) time, O(1) space)
+            
+            eaisest solution is to clone the array and compare the first and last difference, 
+            but that will be O(nlogn) time and O(n space)
+        */
+        int begin = -1;
+        int end = -2; //setting to begin-1 so can always return end-begin+1; or we can add a check for already sorted array
+        int n = nums.length;
+        int min = nums[n-1];    //current min from right to left
+        int max = nums[0];  //current max from left to right
+        for(int i = 1; i < n; i++){
+            min = Math.min(min, nums[n-1-i]);
+            max = Math.max(max, nums[i]);
+            
+            if(min < nums[n-1-i]) begin = n-1-i;
+            if(max > nums[i]) end = i;
+        }
+        
+        return end - begin + 1;
+    }
+}
