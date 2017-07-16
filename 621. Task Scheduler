@@ -1,0 +1,42 @@
+public class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        /*
+            store the task and frequency in HashMap, use the most frequent task as frame breaks
+            execute the task, decrease frequency and put it back to pq after each round
+        */
+        Map<Character, Integer> map = new HashMap<>();
+        for(char c : tasks){
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+        
+        PriorityQueue<Map.Entry<Character, Integer>> pq = new PriorityQueue<>(
+            (a,b) -> a.getValue() != b.getValue() ? b.getValue() - a.getValue() : a.getKey() - b.getKey());
+        
+        pq.addAll(map.entrySet());
+        int count = 0;
+        
+        while(!pq.isEmpty()){
+            int k = n + 1; //n space apart plus the task itself
+            List<Map.Entry> list = new ArrayList<>();
+            
+            while(k > 0 && !pq.isEmpty()){
+                Map.Entry<Character, Integer> top = pq.poll();
+                top.setValue(top.getValue() - 1);
+                list.add(top);
+                k--;
+                count++;
+            }
+            
+            for(Map.Entry<Character, Integer> item : list){
+                if(item.getValue() > 0)
+                    pq.add(item);
+            }
+                
+            if(pq.isEmpty()) break;
+            count += k; //if k > 0, there needs to be idle cycles
+        }
+        
+        return count;
+        
+    }
+}
