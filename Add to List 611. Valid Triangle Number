@@ -1,0 +1,22 @@
+public class Solution {
+    public int triangleNumber(int[] nums) {
+        /*
+            To form a triangle, the sum of shorter sides must be greater than the longest side
+        */
+        Arrays.sort(nums);
+        int count = 0;
+        for(int i = nums.length - 1; i >= 2; i--){
+            int l = 0;
+            int r = i - 1;
+            while(l < r){
+                if(nums[l] + nums[r] > nums[i]){
+                    count += r - l; // From the condition, we can tell nums[l+1], nums[l+2] plus nums[r] > nums[i]
+                    r--;
+                }else
+                    l++;
+            }
+        }
+        
+        return count;
+    }
+}
