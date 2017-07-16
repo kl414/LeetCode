@@ -1,0 +1,37 @@
+public class Solution {
+    public int subarraySum(int[] nums, int k) {
+        /*
+            Brute force: Time complexity O(n^2), Space complexity O(1)
+        */
+        /*
+            int count = 0;
+            for(int i = 0; i < nums.length; i++){
+                int sum = 0;
+                for(int j = i; j < nums.length; j++){
+                    sum += nums[j];
+                    if(sum == k)
+                        count++;
+                }
+            }
+            return count;
+        */
+        
+        /*
+        From solution 1, we know the key to solve this problem is SUM[i, j]. So if we know SUM[0, i - 1] and SUM[0, j], then we can easily get SUM[i, j]. To achieve this, we just need to go through the array, calculate the current sum and save number of all seen PreSum to a HashMap. Time complexity O(n), Space complexity O(n).
+        */
+        
+        int sum = 0;
+        int result = 0;
+        
+        Map<Integer, Integer> map = new HashMap<>(); //map(sum, frequency)
+        map.put(0, 1); //put sum of 0
+        
+        for(int num: nums){
+            sum += num;
+            result += map.getOrDefault(sum - k, 0); //if there is a preSum(sum-k) exist, add the frequency to result
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
+        }
+        
+        return result;
+    }
+}
