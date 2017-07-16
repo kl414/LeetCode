@@ -1,0 +1,19 @@
+public class Solution {
+    public int arrayNesting(int[] nums) {
+        /*
+            finding the size of each cycles, by setting -1 to mark it as visited
+        */
+        int maxSize = 0;
+        for(int i = 0; i < nums.length; i++){
+            int size = 0;
+            for(int j = i; nums[j] >= 0; size++){
+                int temp = nums[j];
+                nums[j] = -1;
+                j = temp;
+            }
+            maxSize = Math.max(maxSize, size);
+        }
+        
+        return maxSize;
+    }
+}
