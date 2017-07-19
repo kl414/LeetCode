@@ -1,0 +1,58 @@
+public class Solution {
+    public int nextGreaterElement(int n) {
+        /*
+            Starting from the right, find the first digit that's smaller than the next digit (nums[i] < nums[i+1])
+            Then swap it with the smallest digit that's greater than nums[i] from the right
+            So the i+ digits are in descending order now, reverse it for the smallest value, but be careful of overflow
+        */
+        /*
+        Now the main algorithm works in following steps -
+
+        I) Traverse the given number from rightmost digit, keep traversing till you find a digit which is smaller than the previously traversed digit. For example, if the input number is “534976”, we stop at 4 because 4 is smaller than next digit 9. If we do not find such a digit, then output is “Not Possible”.
+
+        II) Now search the right side of above found digit ‘d’ for the smallest digit greater than ‘d’. For “534976″, the right side of 4 contains “976”. The smallest digit greater than 4 is 6.
+
+        III) Swap the above found two digits, we get 536974 in above example.
+
+        IV) Now sort all digits from position next to ‘d’ to the end of number. The number that we get after sorting is the output. For above example, we sort digits in bold 536974. We get “536479” which is the next greater number for input 534976.
+
+        */
+        char[] digits = String.valueOf(n).toCharArray();
+        
+        //find the first digit that's smaller than the next digit
+        int i = digits.length - 2;
+        while(i >= 0 && digits[i] >= digits[i+1])
+            i--;
+        
+        //the digits are in descending order, which is the greatest possible already
+        if(i < 0) return -1;
+        
+        //find the first digit that's greater than digit[i]
+        int j = digits.length - 1;
+        while(digits[j] <= digits[i])
+            j--;
+        
+        swap(digits, i, j);
+        reverse(digits, i+1, digits.length - 1);
+        
+        //for overflow can also parse it to long and compare against Interger.MAX_VALUE
+        try{
+            return Integer.valueOf(String.valueOf(digits));
+        }catch(NumberFormatException e){
+            return -1;
+        }
+    }
+    
+    private void swap(char[] arr, int i, int j){
+        //exclusive or: a^a^b = b
+        //could use temp variable to do swap too
+        arr[i] ^= arr[j];
+        arr[j] ^= arr[i];
+        arr[i] ^= arr[j];
+    }
+    
+    private void reverse(char[] arr, int begin, int end){
+        while(begin < end)
+            swap(arr, begin++, end--);
+    }
+}
