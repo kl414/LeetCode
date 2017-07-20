@@ -1,0 +1,25 @@
+public class Solution {
+    public String reverseWords(String s) {
+        char[] arr = s.toCharArray();
+        int i = 0;
+        for(int j = 0; j < arr.length; j++){
+            if(arr[j] == ' '){
+                reverse(arr, i, j - 1);
+                i = j + 1;
+            }
+        }
+        //reverse last word
+        reverse(arr, i, arr.length - 1);
+        return new String(arr);
+    }
+    
+    private void reverse(char[] arr, int begin, int end){
+        while(begin < end){
+            char c = arr[end];
+            arr[end] = arr[begin];
+            arr[begin] = c;
+            begin++;
+            end--;
+        }
+    }
+}
