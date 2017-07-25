@@ -1,0 +1,30 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    /*
+    For every node, length of longest path which pass it = MaxDepth of its left subtree + MaxDepth of its right subtree.
+    */
+    int max = 0;
+    public int diameterOfBinaryTree(TreeNode root) {
+        maxDepth(root);
+        return max;
+    }
+    
+    private int maxDepth(TreeNode root){
+        if(root == null) return 0;
+        
+        int leftDepth = maxDepth(root.left);
+        int rightDepth = maxDepth(root.right);
+        
+        max = Math.max(max, leftDepth + rightDepth);
+        
+        return Math.max(leftDepth, rightDepth) + 1;
+    }
+}
