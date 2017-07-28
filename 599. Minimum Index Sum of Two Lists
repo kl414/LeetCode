@@ -1,0 +1,29 @@
+public class Solution {
+    public String[] findRestaurant(String[] list1, String[] list2) {
+        /*
+            use HashMap to find duplicate, clear out the result list if a new lower index is found
+        */
+        int leastIndex = Integer.MAX_VALUE;
+        HashMap<String, Integer> map = new HashMap<>();
+        List<String> list = new ArrayList<>();
+        
+        for(int i = 0; i < list1.length; i++)
+            map.put(list1[i], i);
+        
+        for(int i = 0; i < list2.length; i++){
+            String key = list2[i];
+            if(map.containsKey(key)){
+                int index = map.get(key) + i;
+                if(index == leastIndex)
+                    list.add(key);
+                else if(index < leastIndex){
+                    list.clear();
+                    list.add(key);
+                    leastIndex = index;
+                }
+            }
+        }
+        
+        return list.toArray(new String[list.size()]);
+    }
+}
