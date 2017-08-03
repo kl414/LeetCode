@@ -1,0 +1,21 @@
+public class Solution {
+    public int leastBricks(List<List<Integer>> wall) {
+        /*
+            Use map to store brick's length for each row (Don't need last brick)
+            we want to find the occurence of most common length
+        */
+        Map<Integer, Integer> map = new HashMap<>();
+        int maxCount = 0;
+        
+        for(List<Integer> row : wall){
+            int length = 0;
+            for(int i = 0; i < row.size() - 1; i++){
+                length += row.get(i);
+                map.put(length, map.getOrDefault(length, 0) + 1);
+                maxCount = Math.max(maxCount, map.get(length));
+            }
+        }
+        
+        return wall.size() - maxCount;
+    }
+}
