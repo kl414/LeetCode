@@ -1,0 +1,45 @@
+public class Solution {
+    public String decodeString(String s) {
+        /*
+            Use stack such to deal with nested square brackets (pop from last item)
+        */
+        String res = "";
+        Stack<Integer> countStack = new Stack<>();
+        Stack<String> resStack = new Stack<>();
+        int i = 0;
+        while(i < s.length()){
+            int count = 0;
+            char c = s.charAt(i);
+            //Store the count
+            while(Character.isDigit(c)){
+                count = 10 * count + (c - '0');
+                c = s.charAt(++i);
+            }
+            if(count > 0)
+                countStack.push(count);
+            
+            //push previous result
+            if(c == '['){
+                resStack.push(res);
+                res = "";
+                i++;
+            }
+            //build current result with repeated times
+            else if (c == ']'){
+                StringBuilder sb = new StringBuilder(resStack.pop());
+                int k = countStack.pop();
+                for(int j = 0; j < k; j++){
+                    sb.append(res);
+                }
+                res = sb.toString();
+                i++;
+            }
+            //build current result
+            else{
+                res += c;
+                i++;
+            }
+        }
+        return res;
+    }
+}
