@@ -1,0 +1,44 @@
+public class Solution {
+    public int findRadius(int[] houses, int[] heaters) {
+        /*
+            Array.binarySearch returns index of the search key, if it is contained in the array; 
+            otherwise, (-(insertion point) - 1)
+        */
+        Arrays.sort(heaters);
+        int result = 0;
+
+        for (int house : houses) {
+            int index = Arrays.binarySearch(heaters, house);
+            //ignore houses on heaters
+            if (index < 0) {
+                index = -(index + 1);
+                int leftDist = index - 1 >= 0 ? house - heaters[index - 1] : Integer.MAX_VALUE;
+                int rightDist = index < heaters.length ? heaters[index] - house : Integer.MAX_VALUE;
+
+                result = Math.max(result, Math.min(leftDist, rightDist));
+            }
+        }
+
+        return result;
+        
+        /*
+            Two pointers
+        */
+        /*
+        Arrays.sort(houses);
+        Arrays.sort(heaters);
+        
+        int i = 0, res = 0;
+        for (int house : houses) {
+            //If it is less than half, it is closer to the heaters[i] and vice versa
+            //(heaters[i] + heaters[i + 1]) / 2 <= house
+            while (i < heaters.length - 1 && heaters[i] + heaters[i + 1] <= house * 2) {
+                i++;
+            }
+            res = Math.max(res, Math.abs(heaters[i] - house));
+        }
+        
+        return res;
+        */
+    }
+}
